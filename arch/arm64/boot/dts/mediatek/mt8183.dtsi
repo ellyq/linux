@@ -2001,6 +2001,26 @@
 			phy-names = "dphy";
 		};
 
+		dpi0: dpi@14015000 {
+			compatible = "mediatek,mt8183-dpi";
+			reg = <0 0x14015000 0 0x1000>;
+			interrupts = <GIC_SPI 237 IRQ_TYPE_LEVEL_LOW>;
+			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
+			clocks = <&topckgen CLK_TOP_MUX_DPI0>,
+				 <&mmsys CLK_MM_DPI_MM>,
+				 <&mmsys CLK_MM_DPI_IF>,
+				 <&apmixedsys CLK_APMIXED_TVDPLL>,
+				 <&topckgen CLK_TOP_TVDPLL_D2>,
+				 <&topckgen CLK_TOP_TVDPLL_D4>,
+				 <&topckgen CLK_TOP_TVDPLL_D8>,
+				 <&topckgen CLK_TOP_TVDPLL_D16>;
+			clock-names = "pixel", "engine", "ck_cg", "pll",
+				      "TVDPLL_D2",
+				      "TVDPLL_D4",
+				      "TVDPLL_D8",
+				      "TVDPLL_D16";
+		};
+
 		mutex: mutex@14016000 {
 			compatible = "mediatek,mt8183-disp-mutex";
 			reg = <0 0x14016000 0 0x1000>;
