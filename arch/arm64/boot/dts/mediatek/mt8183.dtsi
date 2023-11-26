@@ -1795,22 +1795,59 @@
 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0 0x1000>;
 		};
 
-		mdp3-rdma0@14001000 {
-			compatible = "mediatek,mt8183-mdp3-rdma";
-			reg = <0 0x14001000 0 0x1000>;
-			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x1000 0x1000>;
+		mdp3_rdma0: mdp3-rdma0@14001000 {
+			compatible = "mediatek,mt8183-mdp3",
+				     "mediatek,mt8183-mdp3-rdma";
+			mediatek,scp = <&scp>;
+			mediatek,mdp3-id = <0>;
+			mediatek,mdp3-comps = "mediatek,mt8183-mdp3-dl1",
+					      "mediatek,mt8183-mdp3-dl2",
+					      "mediatek,mt8183-mdp3-path1",
+					      "mediatek,mt8183-mdp3-path2",
+					      "mediatek,mt8183-mdp3-imgi",
+					      "mediatek,mt8183-mdp3-exto";
+			mediatek,mdp3-comp-ids = <0 1 0 1 0 1>;
+			reg = <0 0x14001000 0 0x1000>,
+			      <0 0x14000000 0 0x1000>,
+			      <0 0x14005000 0 0x1000>,
+			      <0 0x14006000 0 0x1000>,
+			      <0 0x15020000 0 0x1000>;
+			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x1000 0x1000>,
+						  <&gce SUBSYS_1400XXXX 0 0x1000>,
+						  <&gce SUBSYS_1400XXXX 0x5000 0x1000>,
+						  <&gce SUBSYS_1400XXXX 0x6000 0x1000>,
+						  <&gce SUBSYS_1502XXXX 0 0x1000>;
 			mediatek,gce-events = <CMDQ_EVENT_MDP_RDMA0_SOF>,
 					      <CMDQ_EVENT_MDP_RDMA0_EOF>;
 			power-domains = <&spm MT8183_POWER_DOMAIN_DISP>;
 			clocks = <&mmsys CLK_MM_MDP_RDMA0>,
-				 <&mmsys CLK_MM_MDP_RSZ1>;
+				 <&mmsys CLK_MM_MDP_RSZ1>,
+				 <&mmsys CLK_MM_MDP_DL_TXCK>,
+				 <&mmsys CLK_MM_MDP_DL_RX>,
+				 <&mmsys CLK_MM_IPU_DL_TXCK>,
+				 <&mmsys CLK_MM_IPU_DL_RX>;
 			iommus = <&iommu M4U_PORT_MDP_RDMA0>;
+			mediatek,mmsys = <&mmsys>;
+			mediatek,mm-mutex = <&mutex>;
+			mediatek,mailbox-gce = <&gce>;
 			mboxes = <&gce 20 CMDQ_THR_PRIO_LOWEST 0>,
-				 <&gce 21 CMDQ_THR_PRIO_LOWEST 0>;
+				 <&gce 21 CMDQ_THR_PRIO_LOWEST 0>,
+				 <&gce 22 CMDQ_THR_PRIO_LOWEST 0>,
+				 <&gce 23 CMDQ_THR_PRIO_LOWEST 0>;
+			mdp3-rsz0 = <&mdp3_rsz0>; /* debug only */
+			mdp3-rsz1 = <&mdp3_rsz1>; /* debug only */
+			mdp3-wrot0 = <&mdp3_wrot0>; /* debug only */
+			mdp3-wdma0 = <&mdp3_wdma>; /* debug only */
+			mdp3-ccorr0 = <&mdp3_ccorr>; /* debug only */
+			gce-subsys = <&gce 0x14000000 SUBSYS_1400XXXX>,
+				     <&gce 0x14010000 SUBSYS_1401XXXX>,
+				     <&gce 0x14020000 SUBSYS_1402XXXX>,
+				     <&gce 0x15020000 SUBSYS_1502XXXX>;
 		};
 
-		mdp3-rsz0@14003000 {
+		mdp3_rsz0: mdp3-rsz0@14003000 {
 			compatible = "mediatek,mt8183-mdp3-rsz";
+			mediatek,mdp3-id = <0>;
 			reg = <0 0x14003000 0 0x1000>;
 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x3000 0x1000>;
 			mediatek,gce-events = <CMDQ_EVENT_MDP_RSZ0_SOF>,
@@ -1818,8 +1855,9 @@
 			clocks = <&mmsys CLK_MM_MDP_RSZ0>;
 		};
 
-		mdp3-rsz1@14004000 {
+		mdp3_rsz1: mdp3-rsz1@14004000 {
 			compatible = "mediatek,mt8183-mdp3-rsz";
+			mediatek,mdp3-id = <1>;
 			reg = <0 0x14004000 0 0x1000>;
 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x4000 0x1000>;
 			mediatek,gce-events = <CMDQ_EVENT_MDP_RSZ1_SOF>,
@@ -1827,8 +1865,9 @@
 			clocks = <&mmsys CLK_MM_MDP_RSZ1>;
 		};
 
-		mdp3-wrot0@14005000 {
+		mdp3_wrot0: mdp3-wrot0@14005000 {
 			compatible = "mediatek,mt8183-mdp3-wrot";
+			mediatek,mdp3-id = <0>;
 			reg = <0 0x14005000 0 0x1000>;
 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x5000 0x1000>;
 			mediatek,gce-events = <CMDQ_EVENT_MDP_WROT0_SOF>,
@@ -1838,8 +1877,9 @@
 			iommus = <&iommu M4U_PORT_MDP_WROT0>;
 		};
 
-		mdp3-wdma@14006000 {
+		mdp3_wdma: mdp3-wdma@14006000 {
 			compatible = "mediatek,mt8183-mdp3-wdma";
+			mediatek,mdp3-id = <0>;
 			reg = <0 0x14006000 0 0x1000>;
 			mediatek,gce-client-reg = <&gce SUBSYS_1400XXXX 0x6000 0x1000>;
 			mediatek,gce-events = <CMDQ_EVENT_MDP_WDMA0_SOF>,
