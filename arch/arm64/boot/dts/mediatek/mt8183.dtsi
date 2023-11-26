@@ -2055,7 +2055,6 @@
 					      <CMDQ_EVENT_ISP_FRAME_DONE_P2_14>,
 					      <CMDQ_EVENT_WPE_A_DONE>,
 					      <CMDQ_EVENT_SPE_B_DONE>;
-			mediatek,gce-client-reg = <&gce SUBSYS_1401XXXX 0x6000 0x1000>;
 		};
 
 		larb0: larb@14017000 {
