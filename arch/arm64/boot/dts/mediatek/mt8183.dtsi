@@ -1761,7 +1761,20 @@
 				<GIC_SPI 278 IRQ_TYPE_LEVEL_LOW>;
 			interrupt-names = "job", "mmu", "gpu";
 
-			clocks = <&mfgcfg CLK_MFG_BG3D>;
+			clocks =
+				<&topckgen CLK_TOP_MFGPLL_CK>,
+				<&topckgen CLK_TOP_MUX_MFG>,
+				<&clk26m>,
+				<&mfgcfg CLK_MFG_BG3D>;
+			clock-names =
+				"clk_main_parent",
+				"clk_mux",
+				"clk_sub_parent",
+				"subsys_mfg_cg";
+
+			#cooling-cells = <2>;
+			cooling-min-level = <0>;
+			cooling-max-level = <15>;
 
 			power-domains =
 				<&spm MT8183_POWER_DOMAIN_MFG_CORE0>,
