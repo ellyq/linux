@@ -2853,21 +2853,19 @@ static int it6505_audio_hw_params(struct device *dev, void *data,
 	return it6505_audio_setup_hw_params(it6505, params);
 }
 
-static int it6505_audio_setup_trigger(struct it6505 *it6505,
-						     int cmd)
+static int it6505_audio_setup_trigger(struct it6505 *it6505, int cmd)
 {
-	struct device *dev = it6505->dev;
-
+	struct device *dev = &it6505->client->dev;
 	DRM_DEV_DEBUG_DRIVER(dev, "event: %d", cmd);
 
 	switch (cmd) {
-	case HDMI_CODEC_TRIGGER_EVENT_START:
-	case HDMI_CODEC_TRIGGER_EVENT_RESUME:
+	case SNDRV_PCM_TRIGGER_START:
+	case SNDRV_PCM_TRIGGER_RESUME:
 		queue_delayed_work(system_wq, &it6505->delayed_audio,
 				   msecs_to_jiffies(180));
 		break;
-	case HDMI_CODEC_TRIGGER_EVENT_STOP:
-	case HDMI_CODEC_TRIGGER_EVENT_SUSPEND:
+	case SNDRV_PCM_TRIGGER_STOP:
+	case SNDRV_PCM_TRIGGER_SUSPEND:
 		cancel_delayed_work(&it6505->delayed_audio);
 		break;
 	default:
@@ -2876,6 +2874,7 @@ static int it6505_audio_setup_trigger(struct it6505 *it6505,
 
 	return 0;
 }
+
 
 static int it6505_audio_trigger(struct device *dev, int cmd)
 {
